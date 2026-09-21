@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/r-irbe/lifecycle-guard/schemas/resume-brief.v1.json",
+  "title": "Host-harness resume brief",
+  "description": "Bounded continuation context derived from a recorded host-harness session. Every field is either decoded from the step store or explicitly reported as a gap.",
+  "type": "object",
+  "required": ["sessionId", "generatedAt", "stepCount", "scanned", "recentTools", "gaps"],
+  "properties": {
+    "sessionId": { "type": "string" },
+    "workspace": { "type": "string" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "stepCount": { "type": "integer", "minimum": 0 },
+    "scanned": {
+      "type": "object",
+      "required": ["from", "to", "decoded", "byKind", "stepTypes"],
+      "properties": {
+        "from": { "type": "integer" },
+        "to": { "type": "integer" },
+        "decoded": { "type": "integer" },
+        "byKind": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        },
+        "stepTypes": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        }
+      }
+    },
+    "window": {
+      "type": "object",
+      "properties": {
+        "firstTs": { "type": ["string", "null"] },
+        "lastTs": { "type": ["string", "null"] }
+      }
+    },
+    "lastUserRequest": {
+      "type": ["object", "null"],
+      "required": ["idx", "text", "bytes"],
+      "properties": {
+        "idx": { "type": "integer" },
+        "ts": { "type": ["string", "null"] },
+        "text": { "type": "string" },
+        "bytes": { "type": "integer" }
+      }
+    },
+    "continuationSections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["heading", "body"],
+        "properties": {
+          "heading": { "type": "string" },
+          "body": { "type": "string" }
+        }
+      }
+    },
+    "recentTools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["idx", "kind"],
+        "properties": {
+          "idx": { "type": "integer" },
+          "kind": { "type": "string" },
+          "toolName": { "type": "string" },
+          "action": { "type": "string" },
+          "summary": { "type": "string" },
+          "command": { "type": "string" },
+          "path": { "type": "string" },
+          "tsMs": { "type": "number" },
+          "errors": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "toolUsage": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" }
+    },
+    "filesTouched": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "count", "lastIdx"],
+        "properties": {
+          "path": { "type": "string" },
+          "count": { "type": "integer" },
+          "lastIdx": { "type": "integer" }
+        }
+      }
+    },
+    "blockers": { "type": "array", "items": { "type": "string" } },
+    "openTimers": { "type": "array", "items": { "type": "object" } },
+    "operatorInputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["timestamp", "display"],
+        "properties": {
+          "timestamp": { "type": "number" },
+          "display": { "type": "string" }
+        }
+      }
+    },
+    "brainArtifacts": { "type": "array", "items": { "type": "string" } },
+    "gaps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Known blind spots: undecodable payloads, encryption, and rows outside the scanned window."
+    }
+  }
+}

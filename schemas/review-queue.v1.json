@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/r-irbe/lifecycle-guard/schemas/review-queue.v1.json",
+  "title": "Review remediation queue",
+  "description": "Findings collected from code review sources plus their dispatch state.",
+  "type": "object",
+  "required": ["version", "updatedAt", "findings"],
+  "properties": {
+    "version": { "type": "integer", "const": 1 },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "source", "severity", "repo", "pr", "path", "line", "title", "body", "state"],
+        "properties": {
+          "id": { "type": "string" },
+          "source": { "enum": ["gemini-code-assist", "jules", "human", "guard"] },
+          "severity": { "enum": ["low", "medium", "high", "critical"] },
+          "repo": { "type": "string", "pattern": "^[^/]+/[^/]+$" },
+          "pr": { "type": "integer", "minimum": 0 },
+          "path": { "type": "string" },
+          "line": { "type": "integer", "minimum": 0 },
+          "title": { "type": "string" },
+          "body": { "type": "string" },
+          "suggestion": { "type": "string" },
+          "url": { "type": "string" },
+          "createdAt": { "type": "string" },
+          "state": { "enum": ["open", "triaged", "dispatched", "fixed", "wontfix"] },
+          "dispatch": {
+            "type": "object",
+            "required": ["via", "dispatchedAt", "prompt"],
+            "properties": {
+              "via": { "enum": ["jules", "local"] },
+              "sessionId": { "type": "string" },
+              "sessionUrl": { "type": "string" },
+              "dispatchedAt": { "type": "string", "format": "date-time" },
+              "prompt": { "type": "string" }
+            }
+          },
+          "resolvedAt": { "type": "string", "format": "date-time" },
+          "resolutionNote": { "type": "string" }
+        }
+      }
+    }
+  }
+}
