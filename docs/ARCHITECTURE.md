@@ -106,3 +106,12 @@ framing, so the decoder is exercised the way production exercises it rather
 than through a hand-written fixture object.
 
 Requires Node 22.5 or newer.
+
+## Further reading
+
+- [docs/plans/](plans/) — why a knob exists and how it was checked.
+- [PROCESSES.md](PROCESSES.md), [SDLC.md](SDLC.md) — gates as data, the improvement loop.
+- [CI.md](CI.md) — local first; GitHub for the attested subset.
+- [REVIEWERS.md](REVIEWERS.md) — one queue, two dispatch paths.
+- [SESSION-RESUME.md](SESSION-RESUME.md) — SQLite / protobuf continuation brief.
+- [UNICODE-AND-INJECTION.md](UNICODE-AND-INJECTION.md) — Unicode modes and injection detectors.
