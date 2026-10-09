@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/r-irbe/lifecycle-guard/schemas/lease.v1.json",
+  "title": "Workspace lease",
+  "description": "One writer at a time over a place, with a lifetime. The store is one file per lease, named after the sha256 of the leased path (first 32 hex characters) plus .json, and every write is an exclusive create so two holders cannot both observe an empty slot and both take it. Expiry is acquiredAtMs + durationMs compared against the reader's own clock; no clock is read implicitly.",
+  "type": "object",
+  "required": [
+    "id",
+    "path",
+    "holder",
+    "acquiredAtMs",
+    "durationMs"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque lease identifier, unique per acquisition."
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The absolute path of the leased place, usually a working tree root."
+    },
+    "holder": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The identity that holds the lease. A writer that does not identify itself is treated as someone else."
+    },
+    "acquiredAtMs": {
+      "type": "number",
+      "description": "Epoch milliseconds at acquisition, from the holder's clock."
+    },
+    "durationMs": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Lease lifetime in milliseconds. A lease is expired once now minus acquiredAtMs is at least durationMs."
+    }
+  }
+}

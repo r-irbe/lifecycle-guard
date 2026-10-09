@@ -82,10 +82,15 @@ stripping). Fail-closed when unattended.
 - [docs/REVIEWERS.md](docs/REVIEWERS.md) — Gemini and Jules into one queue.
 - [docs/SESSION-RESUME.md](docs/SESSION-RESUME.md) — SQLite / protobuf continuation brief.
 - [docs/UNICODE-AND-INJECTION.md](docs/UNICODE-AND-INJECTION.md) — modes, detectors, dual-LLM layer.
+- [docs/VISIBILITY.md](docs/VISIBILITY.md) — TLP-derived labels, manifest rules, boundary checks.
 - [SECURITY.md](SECURITY.md) — reporting and threat-model boundary.
 
-Schemas for the policy, resume brief, and review queue live in
-[`schemas/`](schemas/).
+Schemas for the policy, resume brief, review queue, workspace lease, and
+visibility manifest live in [`schemas/`](schemas/). Each schema names this
+repository in its `$id`; other repositories vendor copies and keep that
+`$id`, so drift shows up in a diff. The policy schema published here is the
+vendor-neutral contract subset; an implementation may extend it in its own
+namespaced schema.
 
 ## License
 

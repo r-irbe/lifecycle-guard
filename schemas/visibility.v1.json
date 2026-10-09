@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/r-irbe/lifecycle-guard/schemas/visibility.v1.json",
+  "title": "Visibility manifest",
+  "description": "A machine-readable visibility manifest: path globs map to a TLP-derived label, assigned at intake. Rules are evaluated in listed order and the first matching glob wins; a path matched by no rule keeps the manifest default. Agents may raise the restriction; only the operator lowers it, as a signed manifest edit. See docs/VISIBILITY.md.",
+  "type": "object",
+  "required": [
+    "version",
+    "default",
+    "rules"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Manifest schema version."
+    },
+    "default": {
+      "$ref": "#/definitions/label",
+      "description": "Label applied to paths matched by no rule."
+    },
+    "rules": {
+      "type": "array",
+      "description": "Path-glob rules; the first match in listed order wins.",
+      "items": {
+        "type": "object",
+        "required": [
+          "glob",
+          "label"
+        ],
+        "properties": {
+          "glob": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Path glob relative to the manifest root."
+          },
+          "label": {
+            "$ref": "#/definitions/label"
+          },
+          "note": {
+            "type": "string",
+            "description": "Why this rule exists."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "label": {
+      "type": "string",
+      "enum": [
+        "RED",
+        "AMBER",
+        "GREEN",
+        "CLEAR"
+      ],
+      "description": "TLP 2.0-derived: RED never leaves the machine; AMBER (AMBER+STRICT) reaches trusted agents of the same operator only; GREEN is shareable within the declared community or pack; CLEAR is public."
+    }
+  }
+}
