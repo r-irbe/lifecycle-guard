@@ -85,12 +85,16 @@ stripping). Fail-closed when unattended.
 - [docs/VISIBILITY.md](docs/VISIBILITY.md) — TLP-derived labels, manifest rules, boundary checks.
 - [SECURITY.md](SECURITY.md) — reporting and threat-model boundary.
 
-Schemas for the policy, resume brief, review queue, workspace lease, and
-visibility manifest live in [`schemas/`](schemas/). Each schema names this
-repository in its `$id`; other repositories vendor copies and keep that
-`$id`, so drift shows up in a diff. The policy schema published here is the
-vendor-neutral contract subset; an implementation may extend it in its own
-namespaced schema.
+Schemas for the policy, resume brief, review queue, workspace lease,
+visibility manifest, and judge finding live in [`schemas/`](schemas/).
+Each schema names this repository in its `$id`; other repositories vendor
+copies and keep that `$id`, so drift shows up in a diff. The policy schema
+published here is the vendor-neutral contract subset; an implementation may
+extend it in its own namespaced schema.
+
+The findings engine spec (`docs/FINDINGS-ENGINE.md`) is the normative
+reference for escalation judges: finding schema, weight model, two-gate
+disposition, and trust model.
 
 ## License
 

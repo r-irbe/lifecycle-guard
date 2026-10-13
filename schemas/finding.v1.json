@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/r-irbe/lifecycle-guard/schemas/finding.v1.json",
+  "title": "Judge finding",
+  "description": "A single finding produced by an escalation judge. The finding is evidence for a disposition; it is never a decision by itself. Judges never supply weights: weights are derived from severity, confidence, judge trust, and evidence quality by the adjudication engine. The category taxonomy is sealed: new categories require recorded human approval.",
+  "type": "object",
+  "required": [
+    "finding_id",
+    "judge_id",
+    "category",
+    "category_version",
+    "severity",
+    "confidence",
+    "evidence_refs",
+    "created_at"
+  ],
+  "properties": {
+    "finding_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque identifier, unique per finding."
+    },
+    "judge_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The judge that produced this finding. Trust is tracked per (judge_id, category)."
+    },
+    "category": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The sealed taxonomy category (e.g. command-safety, path-safety, reasoning-consistency). New categories require recorded human approval."
+    },
+    "category_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Version of the taxonomy when the finding was created."
+    },
+    "severity": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4,
+      "description": "0 = no issue; 1 = cosmetic; 2 = reversible scoped concern; 3 = credential/infrastructure/remote-history impact; 4 = irreversible catastrophe."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "The judge's confidence in this finding."
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "References to the evidence that supports this finding."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the finding was produced."
+    }
+  }
+}
