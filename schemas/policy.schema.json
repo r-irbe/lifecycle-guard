@@ -1,0 +1,172 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/r-irbe/lifecycle-guard/schemas/sdlc-policy.v1.json",
+  "title": "SDLC policy",
+  "description": "Policy consumed by the guard. Rules merge by id against the shipped defaults; omitted fields keep their default value.",
+  "type": "object",
+  "required": [
+    "version"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "protectedBranches": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Branch names or globs that require pull-request review."
+    },
+    "branchNamePattern": {
+      "type": "string",
+      "description": "Regular expression a feature branch name must match."
+    },
+    "branchNameAction": {
+      "$ref": "#/definitions/action"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "scope",
+          "kind",
+          "pattern",
+          "action",
+          "reason"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9:-]*$"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "tool": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "command",
+              "path",
+              "content",
+              "commit-message",
+              "diff"
+            ]
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "flags": {
+            "type": "string"
+          },
+          "action": {
+            "$ref": "#/definitions/action"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "description": "Origin of the rule, for example incident-register or deny-patterns:git-push-force."
+          }
+        }
+      }
+    },
+    "protectedPaths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "glob",
+          "action",
+          "reason"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "glob": {
+            "type": "string"
+          },
+          "action": {
+            "$ref": "#/definitions/action"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "secrets": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "action": {
+          "$ref": "#/definitions/action"
+        },
+        "allowlist": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "minLength": {
+          "type": "integer",
+          "minimum": 6
+        }
+      }
+    },
+    "commits": {
+      "type": "object",
+      "properties": {
+        "conventional": {
+          "type": "boolean"
+        },
+        "maxSubject": {
+          "type": "integer",
+          "minimum": 20
+        },
+        "forbidNoVerify": {
+          "type": "boolean"
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "chain": {
+          "type": "boolean"
+        },
+        "recordAllows": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "action": {
+      "enum": [
+        "allow",
+        "warn",
+        "escalate",
+        "block"
+      ],
+      "description": "allow proceeds, warn records, escalate requires human approval, block refuses."
+    }
+  },
+  "$comment": "Scope: the keys the guard consumes. The policy also carries unicode, injection, and ci sections, which the CLI and the extension read; they are documented in docs/UNICODE-AND-INJECTION.md and docs/CI.md."
+}

@@ -75,7 +75,6 @@ stripping). Fail-closed when unattended.
 - [docs/SAFETY.md](docs/SAFETY.md) — rule table, verdicts, hooks, audit chain.
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — module map and design decisions.
 - [docs/SETUP.md](docs/SETUP.md) — designing a policy for a repository.
-- [docs/plans/](docs/plans/) — working notes: why a knob exists and how it was checked.
 - [docs/PROCESSES.md](docs/PROCESSES.md) — gates as data, not TypeScript.
 - [docs/SDLC.md](docs/SDLC.md) — the improvement loop and what is not claimed.
 - [docs/CI.md](docs/CI.md) — local first, GitHub for the attested subset.

@@ -1,0 +1,16 @@
+{
+  "name": "lifecycle-guard",
+  "version": "1.0.0",
+  "description": "Fail-closed SDLC policy, workspace detection, unicode/hygiene audit, and verification gate CLI for coding agents",
+  "type": "module",
+  "bin": {
+    "lifecycle-guard": "./bin/lifecycle-guard.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "license": "Apache-2.0"
+}
