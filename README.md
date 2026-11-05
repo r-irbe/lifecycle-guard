@@ -41,6 +41,8 @@ Place your repository policy at `.lifecycle-guard/policy.json` (which merges cle
 
 ## Adapt to Your Use Case (Customer Journeys)
 
+![How lifecycle-guard Stops Destructive Agent Actions & Protects CI Integrity](docs/assets/mechanics.png)
+
 <details open>
 <summary><b>1. Solo Developers & Teams Using Autonomous Coding Agents</b></summary>
 
